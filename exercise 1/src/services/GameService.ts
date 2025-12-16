@@ -61,7 +61,8 @@ class GameService {
   public calculateEfficiency(moves: number, totalPairs: number): number {
     const minMoves = totalPairs;
     if (moves === 0) return 0;
-    return Math.round((minMoves / moves) * 100);
+    const efficiency = (minMoves / moves) * 100;
+    return Math.min(Math.round(efficiency), 100);
   }
 }
 

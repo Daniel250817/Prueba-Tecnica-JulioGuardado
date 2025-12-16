@@ -48,6 +48,11 @@ src/
     └── theme.css
 ```
 
+## Requisitos
+
+- Node.js 18+ (recomendado: 20.x LTS o superior)
+- npm o yarn
+
 ## Instalación
 
 ```bash
