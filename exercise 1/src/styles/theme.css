@@ -1,0 +1,53 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --pokemon-red: #e60012;
+  --pokemon-red-dark: #c40010;
+  --pokemon-yellow: #ffd700;
+  --pokemon-white: #f8f8f8;
+  --pokemon-black: #0f0f0f;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 50% 50%, var(--pokemon-black) 0 6%, var(--pokemon-white) 6% 12%, var(--pokemon-black) 12% 14%, transparent 14%),
+    linear-gradient(
+      180deg,
+      var(--pokemon-red) 0%,
+      var(--pokemon-red) 49%,
+      var(--pokemon-black) 49%,
+      var(--pokemon-black) 51%,
+      var(--pokemon-white) 51%,
+      var(--pokemon-white) 100%
+    );
+  background-attachment: fixed;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+button {
+  font-family: inherit;
+}
+
+button:focus,
+button:active {
+  outline: none;
+}
+
+.card:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
+}
+

@@ -1,0 +1,33 @@
+.game-board-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  min-height: 100vh;
+  background: transparent;
+}
+
+.game-board {
+  display: grid;
+  gap: 1rem;
+  max-width: 90vw;
+  width: 100%;
+  aspect-ratio: 1;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+@media (max-width: 768px) {
+  .game-board-container {
+    padding: 1rem;
+  }
+
+  .game-board {
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+}
+
