@@ -1,4 +1,5 @@
-import { useState, FormEvent, useRef } from 'react';
+import { useState, useRef } from 'react';
+import type { FormEvent } from 'react';
 import { parseDate, dateToInputValue, inputValueToDate, formatDate } from '../../utils/dateUtils';
 import './RangeForm.css';
 
@@ -68,7 +69,7 @@ export const RangeForm = ({ onAddRange, error }: RangeFormProps) => {
     setter(formatted);
   };
 
-  const handleCalendarClick = (ref: React.RefObject<HTMLInputElement>, textValue: string) => {
+  const handleCalendarClick = (ref: React.RefObject<HTMLInputElement | null>, textValue: string) => {
     if (!ref.current) return;
     
     const input = ref.current;
@@ -143,7 +144,7 @@ export const RangeForm = ({ onAddRange, error }: RangeFormProps) => {
   const handleDatePickerChange = (
     value: string,
     setter: (value: string) => void,
-    ref: React.RefObject<HTMLInputElement>
+    ref: React.RefObject<HTMLInputElement | null>
   ) => {
     if (value) {
       try {
