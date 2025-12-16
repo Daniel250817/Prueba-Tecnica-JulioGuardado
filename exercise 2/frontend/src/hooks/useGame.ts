@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { startGame, submitAnswer, type Question } from '../services/api';
 
 interface UseGameReturn {
@@ -25,7 +25,9 @@ export const useGame = (): UseGameReturn => {
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
   const [correctAnswers, setCorrectAnswers] = useState<number>(0);
 
-  const loadNewQuestion = useCallback(async () => {
+  const loadNewQuestion = useCallback(async (retryCount = 0) => {
+    const maxRetries = 3;
+    
     setIsLoading(true);
     setMessage(null);
     setMessageType(null);
@@ -33,11 +35,19 @@ export const useGame = (): UseGameReturn => {
     try {
       const question = await startGame();
       setCurrentQuestion(question);
-    } catch (error) {
-      setMessage(error instanceof Error ? error.message : 'Error al cargar la pregunta');
-      setMessageType('error');
-    } finally {
       setIsLoading(false);
+    } catch (error) {
+      // Si falla y aún tenemos reintentos, intentar de nuevo después de un delay
+      if (retryCount < maxRetries) {
+        setIsLoading(false);
+        setTimeout(() => {
+          loadNewQuestion(retryCount + 1);
+        }, 1000 * (retryCount + 1)); // Delay incremental: 1s, 2s, 3s
+      } else {
+        setMessage(error instanceof Error ? error.message : 'Error al cargar la pregunta. Por favor, intenta de nuevo.');
+        setMessageType('error');
+        setIsLoading(false);
+      }
     }
   }, []);
 
@@ -94,13 +104,6 @@ export const useGame = (): UseGameReturn => {
     loadNewQuestion();
   }, [loadNewQuestion]);
 
-  // Detectar cuando el score llega a 0
-  useEffect(() => {
-    if (score <= 0 && !isGameOver) {
-      setIsGameOver(true);
-    }
-  }, [score, isGameOver]);
-
   return {
     score,
     currentQuestion,
@@ -114,4 +117,3 @@ export const useGame = (): UseGameReturn => {
     resetGame
   };
 };
-

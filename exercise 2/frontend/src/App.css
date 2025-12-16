@@ -10,7 +10,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 50%, #a5d6a7 100%);
   min-height: 100vh;
 }
 
@@ -32,7 +32,7 @@ body {
 }
 
 .app-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #a5d6a7 0%, #81c784 50%, #66bb6a 100%);
   color: white;
   padding: 2rem;
   text-align: center;
@@ -69,7 +69,7 @@ body {
   font-size: 1rem;
   font-weight: 500;
   color: white;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #81c784 0%, #66bb6a 100%);
   border: none;
   border-radius: 8px;
   cursor: pointer;

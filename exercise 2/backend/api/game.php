@@ -27,7 +27,7 @@ if ($method === 'GET' && strpos($path, '/api/game/start') !== false) {
             http_response_code(500);
             echo json_encode([
                 'success' => false,
-                'error' => 'No se pudo generar la pregunta'
+                'error' => 'No se pudo generar la pregunta. Por favor, intenta de nuevo.'
             ]);
             exit();
         }

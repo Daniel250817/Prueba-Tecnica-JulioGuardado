@@ -14,20 +14,42 @@ class Game {
      * @return array|null Array con 'image', 'options', 'correctBreed' o null si hay error
      */
     public function generateQuestion(): ?array {
-        // Obtener imagen aleatoria y su raza
-        $randomData = $this->dogService->getRandomBreedImage();
-        if (!$randomData) {
-            return null;
-        }
-        
-        $correctBreed = $randomData['breed'];
-        $image = $randomData['image'];
-        
-        // Obtener todas las razas para generar opciones incorrectas
+        // Obtener todas las razas primero (se usa para validación)
         $allBreeds = $this->dogService->getAllBreeds();
         if (empty($allBreeds)) {
             return null;
         }
+        
+        // Intentar obtener una imagen válida con raza que exista en la lista
+        // Hacer hasta 10 intentos para tener más probabilidades de éxito
+        $maxAttempts = 10;
+        $attempt = 0;
+        $randomData = null;
+        $correctBreed = null;
+        
+        while ($attempt < $maxAttempts) {
+            $randomData = $this->dogService->getRandomBreedImage();
+            
+            if ($randomData && !empty($randomData['breed'])) {
+                $correctBreed = $randomData['breed'];
+                
+                // Validar que la raza existe en la lista de razas disponibles
+                if (in_array($correctBreed, $allBreeds)) {
+                    // Raza válida encontrada, salir del loop
+                    break;
+                }
+                // Si la raza no está en la lista, continuar intentando
+            }
+            
+            $attempt++;
+        }
+        
+        // Si después de los intentos no tenemos una raza válida, retornar error
+        if (!$randomData || empty($correctBreed) || !in_array($correctBreed, $allBreeds)) {
+            return null;
+        }
+        
+        $image = $randomData['image'];
         
         // Remover la raza correcta de las opciones
         $availableBreeds = array_filter($allBreeds, function($breed) use ($correctBreed) {
@@ -92,4 +114,3 @@ class Game {
         return ucfirst($breed);
     }
 }
-

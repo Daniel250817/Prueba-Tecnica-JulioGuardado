@@ -60,9 +60,45 @@ class DogService {
         }
         
         $imageUrl = $response['message'];
+        
+        // Validar que la URL tenga el formato esperado
+        if (empty($imageUrl) || !is_string($imageUrl)) {
+            return null;
+        }
+        
         // Extraer la raza de la URL: https://images.dog.ceo/breeds/{breed}/image.jpg
-        preg_match('/breeds\/([^\/]+(?:\/[^\/]+)?)\//', $imageUrl, $matches);
-        $breed = $matches[1] ?? null;
+        // Patrones mejorados para capturar diferentes formatos de URL
+        // Ejemplos: 
+        // - breeds/bulldog/image.jpg
+        // - breeds/bulldog/french/image.jpg
+        // - breeds/hound-afghan/image.jpg
+        // - breeds/hound/afghan/image.jpg
+        
+        $breed = null;
+        
+        // Patrón 1: Captura razas con subrazas (bulldog/french)
+        if (preg_match('/breeds\/([^\/]+(?:\/[^\/]+)?)\//', $imageUrl, $matches)) {
+            $breed = trim($matches[1]);
+        }
+        // Patrón 2: Captura solo la primera parte antes de /image
+        elseif (preg_match('/breeds\/([^\/\s]+)\//', $imageUrl, $matches)) {
+            $breed = trim($matches[1]);
+        }
+        // Patrón 3: Captura cualquier cosa entre breeds/ y /image
+        elseif (preg_match('/breeds\/(.+?)\/image/', $imageUrl, $matches)) {
+            $breed = trim($matches[1]);
+            // Si tiene múltiples partes, unirlas con /
+            $breed = str_replace('/', '/', $breed);
+        }
+        // Patrón 4: Último intento - captura cualquier cosa después de breeds/
+        elseif (preg_match('/breeds\/([^\/\s]+)/', $imageUrl, $matches)) {
+            $breed = trim($matches[1]);
+        }
+        
+        // Validar que la raza extraída no esté vacía
+        if (empty($breed)) {
+            return null;
+        }
         
         return [
             'image' => $imageUrl,

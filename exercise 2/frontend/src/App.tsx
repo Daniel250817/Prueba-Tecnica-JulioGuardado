@@ -70,7 +70,7 @@ function App() {
                 <p>Cargando juego...</p>
               ) : (
                 <div>
-                  <p>Error al cargar el juego</p>
+                  <p>{message || 'Error al cargar el juego'}</p>
                   <button onClick={resetGame} className="retry-button">
                     Reintentar
                   </button>

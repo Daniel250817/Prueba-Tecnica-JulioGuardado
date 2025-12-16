@@ -30,23 +30,31 @@ export interface AnswerResponse {
  * Inicia el juego obteniendo la primera pregunta
  */
 export async function startGame(): Promise<Question> {
-  const response = await fetch(`${API_BASE_URL}/game/start`);
-  
-  if (!response.ok) {
-    throw new Error('Error al iniciar el juego');
+  try {
+    const response = await fetch(`${API_BASE_URL}/game/start`);
+    
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || `Error del servidor: ${response.status} ${response.statusText}`);
+    }
+    
+    const data: StartGameResponse = await response.json();
+    
+    if (!data.success || !data.image || !data.options || !data.correctBreed) {
+      throw new Error(data.error || 'Error al obtener la pregunta');
+    }
+    
+    return {
+      image: data.image,
+      options: data.options,
+      correctBreed: data.correctBreed
+    };
+  } catch (error) {
+    if (error instanceof TypeError && error.message.includes('fetch')) {
+      throw new Error('No se pudo conectar con el servidor. Verifica que el backend esté ejecutándose en http://localhost:8000');
+    }
+    throw error;
   }
-  
-  const data: StartGameResponse = await response.json();
-  
-  if (!data.success || !data.image || !data.options || !data.correctBreed) {
-    throw new Error(data.error || 'Error al obtener la pregunta');
-  }
-  
-  return {
-    image: data.image,
-    options: data.options,
-    correctBreed: data.correctBreed
-  };
 }
 
 /**
