@@ -2,13 +2,11 @@
 // Router para el servidor PHP integrado
 // Uso: Desde el directorio backend ejecutar: php -S localhost:8000 router.php
 
-// Asegurar que estamos en el directorio correcto
 chdir(__DIR__);
 
 $requestUri = $_SERVER['REQUEST_URI'] ?? '';
 $requestMethod = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
-// Remover query string y normalizar path
 $path = parse_url($requestUri, PHP_URL_PATH);
 $path = rtrim($path, '/');
 
@@ -17,7 +15,6 @@ if ($path === '' || $path === '/') {
     $path = '/api/game/start';
 }
 
-// Routing - más flexible para manejar diferentes formatos de URL
 $isStart = (
     $path === '/api/game/start' ||
     strpos($path, '/api/game/start') === 0 ||
