@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { FaDog } from 'react-icons/fa';
 import { useGame } from './hooks/useGame';
 import { DogImage } from './components/DogImage/DogImage';
@@ -22,9 +21,6 @@ function App() {
     resetGame
   } = useGame();
 
-  useEffect(() => {
-    loadNewQuestion();
-  }, [loadNewQuestion]);
 
   const handleOptionSelect = (selectedBreed: string) => {
     handleAnswer(selectedBreed);

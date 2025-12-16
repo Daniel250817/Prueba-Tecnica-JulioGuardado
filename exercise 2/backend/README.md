@@ -15,7 +15,19 @@
    ```
 
 2. Inicia el servidor con el router:
+   
+   **Linux/Mac/Git Bash:**
    ```bash
+   php -S localhost:8000 router.php
+   ```
+   
+   **PowerShell (Windows):**
+   ```powershell
+   & "C:\xampp\php\php.exe" -S localhost:8000 router.php
+   ```
+   
+   O si PHP está en el PATH:
+   ```powershell
    php -S localhost:8000 router.php
    ```
 

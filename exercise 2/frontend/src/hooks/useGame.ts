@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { startGame, submitAnswer, type Question } from '../services/api';
 
 interface UseGameReturn {
@@ -24,10 +24,14 @@ export const useGame = (): UseGameReturn => {
   const [messageType, setMessageType] = useState<'success' | 'error' | null>(null);
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
   const [correctAnswers, setCorrectAnswers] = useState<number>(0);
+  const hasInitialized = useRef<boolean>(false);
+  const isLoadingRef = useRef<boolean>(false);
 
   const loadNewQuestion = useCallback(async (retryCount = 0) => {
-    const maxRetries = 3;
+    if (isLoadingRef.current) return;
     
+    const maxRetries = 3;
+    isLoadingRef.current = true;
     setIsLoading(true);
     setMessage(null);
     setMessageType(null);
@@ -36,10 +40,12 @@ export const useGame = (): UseGameReturn => {
       const question = await startGame();
       setCurrentQuestion(question);
       setIsLoading(false);
+      isLoadingRef.current = false;
     } catch (error) {
       // Si falla y aún tenemos reintentos, intentar de nuevo después de un delay
       if (retryCount < maxRetries) {
         setIsLoading(false);
+        isLoadingRef.current = false;
         setTimeout(() => {
           loadNewQuestion(retryCount + 1);
         }, 1000 * (retryCount + 1)); // Delay incremental: 1s, 2s, 3s
@@ -47,8 +53,16 @@ export const useGame = (): UseGameReturn => {
         setMessage(error instanceof Error ? error.message : 'Error al cargar la pregunta. Por favor, intenta de nuevo.');
         setMessageType('error');
         setIsLoading(false);
+        isLoadingRef.current = false;
       }
     }
+  }, []);
+
+  useEffect(() => {
+    if (hasInitialized.current || isLoadingRef.current) return;
+    hasInitialized.current = true;
+    loadNewQuestion();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleAnswer = useCallback(async (selectedBreed: string) => {
