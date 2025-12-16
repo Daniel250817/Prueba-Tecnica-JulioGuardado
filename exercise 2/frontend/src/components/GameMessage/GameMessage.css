@@ -1,11 +1,13 @@
 .game-message {
-  padding: 1rem 1.5rem;
+  padding: 0.75rem 1.5rem;
   border-radius: 8px;
   font-weight: 500;
   text-align: center;
-  margin: 1rem auto;
+  margin: 0 auto;
   max-width: 500px;
+  width: 100%;
   animation: slideIn 0.3s ease-out;
+  flex-shrink: 0;
 }
 
 .game-message--success {

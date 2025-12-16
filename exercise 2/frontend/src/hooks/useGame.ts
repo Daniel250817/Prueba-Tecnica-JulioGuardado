@@ -78,18 +78,38 @@ export const useGame = (): UseGameReturn => {
       // Verificar si el juego terminó (score llegó a 0)
       if (newScore <= 0) {
         setIsGameOver(true);
+        setIsLoading(false);
       } else if (response.isCorrect && response.newQuestion) {
-        // Si la respuesta es correcta y el juego no terminó, cargar nueva pregunta
-        setTimeout(() => {
-          setCurrentQuestion(response.newQuestion!);
-          setMessage(null);
-          setMessageType(null);
-        }, 1500);
+        // Si la respuesta es correcta y el juego no terminó, mostrar mensaje primero
+        setIsLoading(false);
+        
+        // Pre-cargar la nueva imagen antes de cambiar
+        const newImage = new Image();
+        newImage.onload = () => {
+          // Esperar un momento para que el usuario vea el mensaje de éxito
+          setTimeout(() => {
+            // Cambiar a la nueva pregunta después de que la imagen esté cargada
+            setCurrentQuestion(response.newQuestion!);
+            setMessage(null);
+            setMessageType(null);
+          }, 1500);
+        };
+        newImage.onerror = () => {
+          // Si falla la carga, cambiar de todas formas después de un delay
+          setTimeout(() => {
+            setCurrentQuestion(response.newQuestion!);
+            setMessage(null);
+            setMessageType(null);
+          }, 2000);
+        };
+        newImage.src = response.newQuestion.image;
+      } else {
+        // Respuesta incorrecta, solo quitar loading
+        setIsLoading(false);
       }
     } catch (error) {
       setMessage(error instanceof Error ? error.message : 'Error al procesar la respuesta');
       setMessageType('error');
-    } finally {
       setIsLoading(false);
     }
   }, [currentQuestion, score, isLoading, isGameOver]);

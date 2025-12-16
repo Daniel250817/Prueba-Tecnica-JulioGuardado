@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { FaDog } from 'react-icons/fa';
 import { useGame } from './hooks/useGame';
 import { DogImage } from './components/DogImage/DogImage';
 import { Options } from './components/Options/Options';
@@ -40,7 +41,10 @@ function App() {
       
       <div className="app-container">
         <header className="app-header">
-          <h1>🐕 Adivina la Raza del Perro</h1>
+          <h1>
+            <FaDog className="header-icon" />
+            Adivina la Raza del Perro
+          </h1>
           <Score score={score} />
         </header>
 
@@ -49,7 +53,7 @@ function App() {
             <>
               <DogImage 
                 imageUrl={currentQuestion.image} 
-                isLoading={isLoading}
+                isLoading={false}
               />
               
               <GameMessage 
