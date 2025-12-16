@@ -5,6 +5,7 @@ import './GameOver.css';
 interface GameOverProps {
   stats: GameStatsType;
   timerEnabled: boolean;
+  hasWon: boolean;
   onPlayAgain: () => void;
   onChangeDifficulty: () => void;
 }
@@ -12,6 +13,7 @@ interface GameOverProps {
 export const GameOver = ({
   stats,
   timerEnabled,
+  hasWon,
   onPlayAgain,
   onChangeDifficulty,
 }: GameOverProps) => {
@@ -27,8 +29,12 @@ export const GameOver = ({
   return (
     <div className="game-over-overlay">
       <div className="game-over-modal">
-        <h2 className="congratulations">¡Felicitaciones!</h2>
-        <p className="subtitle">Has completado el juego</p>
+        <h2 className="congratulations">
+          {hasWon ? '¡Felicitaciones!' : 'Tiempo agotado'}
+        </h2>
+        <p className="subtitle">
+          {hasWon ? 'Has completado el juego' : 'No encontraste todos los pares a tiempo'}
+        </p>
 
         <div className="final-stats">
           <div className="final-stat-item">

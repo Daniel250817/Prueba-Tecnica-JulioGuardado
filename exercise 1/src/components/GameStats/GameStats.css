@@ -3,11 +3,13 @@
   gap: 2rem;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+  padding: 0.75rem 1rem;
   background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+  width: fit-content;
 }
 
 .stat-item {
@@ -34,17 +36,39 @@
 
 @media (max-width: 768px) {
   .game-stats {
-    flex-direction: column;
+    flex-direction: row;
     gap: 1rem;
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0.75rem;
   }
 
   .stat-item {
-    flex-direction: row;
-    gap: 0.5rem;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
   }
 
   .stat-value {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-height: 600px) {
+  .game-stats {
+    padding: 0.5rem;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+  }
+
+  .stat-value {
+    font-size: 1rem;
   }
 }
 

@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import type { Card, DifficultyConfig } from '../types/Game';
 import type { Pokemon } from '../types/Pokemon';
 import GameService from '../services/GameService';
-import { FLIP_DELAY, MAX_FLIPPED_CARDS } from '../constants/gameConfig';
+import { FLIP_DELAY, MAX_FLIPPED_CARDS, TIME_LIMIT_SECONDS } from '../constants/gameConfig';
 
 interface UseGameReturn {
   cards: Card[];
@@ -52,13 +52,6 @@ export const useGame = (
     }
   }, [pokemonList, config, initializeGame]);
 
-  useEffect(() => {
-    if (pairsFound === config.totalPairs && pairsFound > 0) {
-      setIsGameOver(true);
-      stopTimer();
-    }
-  }, [pairsFound, config.totalPairs]);
-
   const startTimer = useCallback(() => {
     if (!isTimerRunning) {
       setIsTimerRunning(true);
@@ -76,6 +69,23 @@ export const useGame = (
       setIsTimerRunning(false);
     }
   }, [timerInterval]);
+
+  useEffect(() => {
+    if (!config.enableTimer) return;
+    if (isGameOver) return;
+
+    if (time >= TIME_LIMIT_SECONDS) {
+      setIsGameOver(true);
+      stopTimer();
+    }
+  }, [time, config.enableTimer, isGameOver, stopTimer]);
+
+  useEffect(() => {
+    if (pairsFound === config.totalPairs && pairsFound > 0) {
+      setIsGameOver(true);
+      stopTimer();
+    }
+  }, [pairsFound, config.totalPairs, stopTimer]);
 
   const handleCardClick = useCallback(
     (index: number) => {

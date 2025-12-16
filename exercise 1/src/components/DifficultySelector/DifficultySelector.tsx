@@ -4,12 +4,16 @@ import './DifficultySelector.css';
 interface DifficultySelectorProps {
   selectedDifficulty: Difficulty;
   onSelectDifficulty: (difficulty: Difficulty) => void;
+  isTimedMode: boolean;
+  onToggleTimedMode: (enabled: boolean) => void;
   onStart: () => void;
 }
 
 export const DifficultySelector = ({
   selectedDifficulty,
   onSelectDifficulty,
+  isTimedMode,
+  onToggleTimedMode,
   onStart,
 }: DifficultySelectorProps) => {
   const difficulties: Array<{
@@ -60,6 +64,17 @@ export const DifficultySelector = ({
             <span className="difficulty-description">{difficulty.description}</span>
           </button>
         ))}
+      </div>
+
+      <div className="timer-toggle">
+        <label className="timer-toggle-label">
+          <input
+            type="checkbox"
+            checked={isTimedMode}
+            onChange={(e) => onToggleTimedMode(e.target.checked)}
+          />
+          <span className="timer-toggle-text">Modo contra reloj (2:00 minutos)</span>
+        </label>
       </div>
 
       <button className="start-btn" onClick={onStart}>

@@ -39,6 +39,8 @@ export const GameBoard = ({
     totalPairs: config.totalPairs,
   };
 
+  const hasWon = pairsFound === config.totalPairs;
+
   return (
     <div className="game-board-container">
       <GameStats stats={stats} timerEnabled={config.enableTimer} />
@@ -63,6 +65,7 @@ export const GameBoard = ({
         <GameOver
           stats={stats}
           timerEnabled={config.enableTimer}
+          hasWon={hasWon}
           onPlayAgain={handlePlayAgain}
           onChangeDifficulty={onChangeDifficulty}
         />

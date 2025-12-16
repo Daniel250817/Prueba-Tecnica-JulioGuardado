@@ -9,7 +9,10 @@ import './styles/theme.css';
 function App() {
   const [difficulty, setDifficulty] = useState<Difficulty>(DEFAULT_DIFFICULTY);
   const [gameStarted, setGameStarted] = useState<boolean>(false);
-  const config: DifficultyConfig = DIFFICULTY_CONFIGS[difficulty];
+  const [isTimedMode, setIsTimedMode] = useState<boolean>(false);
+
+  const baseConfig: DifficultyConfig = DIFFICULTY_CONFIGS[difficulty];
+  const config: DifficultyConfig = { ...baseConfig, enableTimer: isTimedMode };
   const { pokemonList, loading, error } = usePokemon(config.totalPairs);
 
   const handleStartGame = () => {
@@ -47,6 +50,8 @@ function App() {
       <DifficultySelector
         selectedDifficulty={difficulty}
         onSelectDifficulty={setDifficulty}
+        isTimedMode={isTimedMode}
+        onToggleTimedMode={setIsTimedMode}
         onStart={handleStartGame}
       />
     );

@@ -105,6 +105,36 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+.timer-toggle {
+  margin-bottom: 2rem;
+  background: var(--pokemon-yellow, #ffd700);
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.timer-toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #1a1a1a;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.timer-toggle-label input[type='checkbox'] {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  accent-color: #1a1a1a;
+}
+
+.timer-toggle-text {
+  cursor: pointer;
+  user-select: none;
+}
+
 .start-btn:hover {
   background: #ffed4e;
   transform: translateY(-2px);

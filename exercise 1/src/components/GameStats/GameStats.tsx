@@ -1,4 +1,5 @@
 import type { GameStats as GameStatsType } from '../../types/Game';
+import { TIME_LIMIT_SECONDS } from '../../constants/gameConfig';
 import './GameStats.css';
 
 interface GameStatsProps {
@@ -21,8 +22,10 @@ export const GameStats = ({ stats, timerEnabled }: GameStatsProps) => {
       </div>
       {timerEnabled && (
         <div className="stat-item">
-          <span className="stat-label">Tiempo:</span>
-          <span className="stat-value">{formatTime(stats.time)}</span>
+          <span className="stat-label">Tiempo restante:</span>
+          <span className="stat-value">
+            {formatTime(Math.max(TIME_LIMIT_SECONDS - stats.time, 0))}
+          </span>
         </div>
       )}
       <div className="stat-item">
