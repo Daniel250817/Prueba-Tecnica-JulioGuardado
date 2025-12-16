@@ -47,7 +47,7 @@ export const DifficultySelector = ({
 
   return (
     <div className="difficulty-selector">
-      <h1 className="game-title">Pokémon Memory Game</h1>
+      <h1 className="game-title">Pokémon Juego de Memoria</h1>
       <p className="game-subtitle">Selecciona la dificultad</p>
 
       <div className="difficulty-options">

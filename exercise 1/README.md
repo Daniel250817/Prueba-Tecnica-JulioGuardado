@@ -1,4 +1,4 @@
-# Pokémon Memory Game
+# Pokémon Juego de Memoria
 
 Juego de memoria con temática Pokémon desarrollado con React, TypeScript y Vite.
 
