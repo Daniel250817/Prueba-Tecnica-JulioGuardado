@@ -37,25 +37,23 @@ class RangeService {
       throw new Error('La fecha de inicio debe ser menor o igual a la fecha de fin');
     }
 
-    // Verificar si el nuevo rango es completamente contenido por algún rango existente
-    // Si es así, no se agrega (el existente ya lo cubre)
-    const isNewRangeContained = ranges.some((range) => 
+    const updatedRanges = [...ranges];
+    
+    const isNewRangeContained = updatedRanges.some((range) => 
       this.isRangeContained(range, newRange)
     );
 
     if (isNewRangeContained) {
-      // El nuevo rango es más pequeño y está contenido en uno existente
-      // No se agrega, se mantienen los rangos originales
-      return this.sortRangesByStart(ranges);
+      newRange.isContained = true;
+      updatedRanges.push(newRange);
+      return this.sortRangesByStart(updatedRanges);
     }
 
-    // Filtrar los rangos existentes que son completamente contenidos por el nuevo rango
-    // Estos son "comidos" (eliminados) por el algoritmo Comelón
-    const filteredRanges = ranges.filter((range) => 
+    const filteredRanges = updatedRanges.filter((range) => 
       !this.isRangeContained(newRange, range)
     );
 
-    // Agregar el nuevo rango
+    newRange.isContained = false;
     filteredRanges.push(newRange);
 
     return this.sortRangesByStart(filteredRanges);

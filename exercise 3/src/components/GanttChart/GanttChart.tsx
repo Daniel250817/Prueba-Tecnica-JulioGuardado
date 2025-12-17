@@ -81,8 +81,8 @@ export const GanttChart = ({ ranges, dateRange }: GanttChartProps) => {
         </div>
         <div className="gantt-chart__body" style={{ height: chartHeight }}>
           <div className="gantt-chart__rows">
-            {ranges.map((range, index) => {
-             const yLevel = 9;
+            {ranges.map((range) => {
+              const yLevel = 9;
               const xPosition = ganttService.calculatePosition(
                 range.start,
                 dateRange.min,
@@ -105,13 +105,13 @@ export const GanttChart = ({ ranges, dateRange }: GanttChartProps) => {
                   </div>
                   <div className="gantt-chart__timeline-row" style={{ width: timelineWidth }}>
                     <div
-                      className="gantt-chart__bar gantt-chart__bar--original"
+                      className={`gantt-chart__bar ${range.isContained ? 'gantt-chart__bar--contained' : 'gantt-chart__bar--original'}`}
                       style={{
                         left: xPosition,
                         width: barWidth,
                         top: yLevel,
                       }}
-                      title={`${formatDate(range.start)} - ${formatDate(range.end)}`}
+                      title={`${formatDate(range.start)} - ${formatDate(range.end)}${range.isContained ? ' (No reemplaza)' : ''}`}
                     />
                   </div>
                 </div>
