@@ -82,7 +82,7 @@ export const GanttChart = ({ ranges, dateRange }: GanttChartProps) => {
         <div className="gantt-chart__body" style={{ height: chartHeight }}>
           <div className="gantt-chart__rows">
             {ranges.map((range, index) => {
-              const yLevel = ganttService.getYLevel(index, ROW_HEIGHT);
+             const yLevel = 9;
               const xPosition = ganttService.calculatePosition(
                 range.start,
                 dateRange.min,
