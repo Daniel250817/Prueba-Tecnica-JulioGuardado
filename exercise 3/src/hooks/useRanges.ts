@@ -24,7 +24,6 @@ export const useRanges = (): UseRangesReturn => {
         id: `${Date.now()}-${Math.random()}`,
         start,
         end,
-        isReplaced: false,
       };
 
       try {

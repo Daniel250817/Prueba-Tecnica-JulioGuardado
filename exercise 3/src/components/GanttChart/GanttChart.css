@@ -6,6 +6,13 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
+.gantt-chart__scroll-container {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 600px;
+  position: relative;
+}
+
 .gantt-chart__header {
   display: flex;
   background: #f8fafc;
@@ -13,6 +20,7 @@
   position: sticky;
   top: 0;
   z-index: 10;
+  min-width: fit-content;
 }
 
 .gantt-chart__header-label {
@@ -27,14 +35,14 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   background: white;
+  flex-shrink: 0;
 }
 
 .gantt-chart__timeline-header {
   position: relative;
   height: 100px;
-  overflow-x: auto;
-  overflow-y: hidden;
   background: #f8fafc;
+  flex-shrink: 0;
 }
 
 .gantt-chart__day-marker {
@@ -68,8 +76,7 @@
 }
 
 .gantt-chart__body {
-  overflow-x: auto;
-  overflow-y: auto;
+  min-width: fit-content;
 }
 
 .gantt-chart__rows {
@@ -81,6 +88,7 @@
   border-bottom: 1px solid #e5e7eb;
   min-height: 50px;
   transition: background 0.2s;
+  min-width: fit-content;
 }
 
 .gantt-chart__row:hover {
@@ -93,6 +101,7 @@
 
 .gantt-chart__row-label {
   width: 220px;
+  min-width: 220px;
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -102,6 +111,7 @@
   position: sticky;
   left: 0;
   z-index: 5;
+  flex-shrink: 0;
 }
 
 .gantt-chart__range-info {
@@ -133,6 +143,7 @@
     #f3f4f6 99px,
     #f3f4f6 100px
   );
+  flex-shrink: 0;
 }
 
 .gantt-chart__bar {

@@ -26,16 +26,6 @@ export const RangeList = ({ ranges, onRemoveRange }: RangeListProps) => {
               <span className="range-list__dates">
                 {formatDate(range.start)} - {formatDate(range.end)}
               </span>
-              {range.isReplaced && (
-                <span className="range-list__badge range-list__badge--replaced">
-                  Reemplazado
-                </span>
-              )}
-              {!range.isReplaced && (
-                <span className="range-list__badge range-list__badge--original">
-                  Original
-                </span>
-              )}
             </div>
             <button
               className="range-list__remove"

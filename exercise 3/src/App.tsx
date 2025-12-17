@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { FaCalendarAlt } from 'react-icons/fa';
 import { RangeForm } from './components/RangeForm/RangeForm';
 import { GanttChart } from './components/GanttChart/GanttChart';
 import { RangeList } from './components/RangeList/RangeList';
@@ -21,7 +22,10 @@ function App() {
   return (
     <div className="app">
       <header className="app__header">
-        <h1 className="app__title">Algoritmo Comelón - Visualización Gantt</h1>
+        <h1 className="app__title">
+          <FaCalendarAlt className="app__title-icon" />
+          Algoritmo Comelón - Visualización Gantt
+        </h1>
         <p className="app__subtitle">
           Gestiona rangos de fechas con reglas de reemplazo y visualízalos en un diagrama Gantt
         </p>

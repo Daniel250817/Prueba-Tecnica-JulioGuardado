@@ -1,4 +1,5 @@
 import type { DateRange } from '../types/Range';
+import { daysBetween } from '../utils/dateUtils';
 
 class GanttService {
   private static instance: GanttService;
@@ -14,23 +15,30 @@ class GanttService {
 
   public getDateRange(ranges: DateRange[]): { min: Date; max: Date } {
     if (ranges.length === 0) {
-      const now = new Date();
+      const now = this.normalizeDate(new Date());
       return { min: now, max: now };
     }
 
-    let min = ranges[0].start;
-    let max = ranges[0].end;
+    let min = this.normalizeDate(ranges[0].start);
+    let max = this.normalizeDate(ranges[0].end);
 
     for (const range of ranges) {
-      if (range.start.getTime() < min.getTime()) {
-        min = range.start;
+      const normalizedStart = this.normalizeDate(range.start);
+      const normalizedEnd = this.normalizeDate(range.end);
+      
+      if (normalizedStart.getTime() < min.getTime()) {
+        min = normalizedStart;
       }
-      if (range.end.getTime() > max.getTime()) {
-        max = range.end;
+      if (normalizedEnd.getTime() > max.getTime()) {
+        max = normalizedEnd;
       }
     }
 
     return { min, max };
+  }
+
+  private normalizeDate(date: Date): Date {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
   }
 
   public calculatePosition(
@@ -39,11 +47,14 @@ class GanttService {
     maxDate: Date,
     width: number
   ): number {
-    const totalTime = maxDate.getTime() - minDate.getTime();
-    if (totalTime === 0) return 0;
-
-    const dateTime = date.getTime() - minDate.getTime();
-    return (dateTime / totalTime) * width;
+    const normalizedDate = this.normalizeDate(date);
+    const normalizedMin = this.normalizeDate(minDate);
+    const normalizedMax = this.normalizeDate(maxDate);
+    
+    const totalDays = daysBetween(normalizedMin, normalizedMax) || 1;
+    const daysFromStart = daysBetween(normalizedMin, normalizedDate);
+    
+    return (daysFromStart / totalDays) * width;
   }
 
   public calculateBarWidth(
@@ -52,11 +63,18 @@ class GanttService {
     maxDate: Date,
     width: number
   ): number {
-    const totalTime = maxDate.getTime() - minDate.getTime();
-    if (totalTime === 0) return 0;
-
-    const rangeTime = range.end.getTime() - range.start.getTime();
-    return (rangeTime / totalTime) * width;
+    const normalizedStart = this.normalizeDate(range.start);
+    const normalizedEnd = this.normalizeDate(range.end);
+    const normalizedMin = this.normalizeDate(minDate);
+    const normalizedMax = this.normalizeDate(maxDate);
+    
+    const rangeDays = daysBetween(normalizedStart, normalizedEnd) + 1;
+    const totalDays = daysBetween(normalizedMin, normalizedMax) || 1;
+    
+    const dayWidth = width / totalDays;
+    const barWidth = rangeDays * dayWidth;
+    
+    return Math.max(4, barWidth);
   }
 
   public getYLevel(index: number, rowHeight: number): number {
